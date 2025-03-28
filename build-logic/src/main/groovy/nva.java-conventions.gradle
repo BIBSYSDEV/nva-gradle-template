@@ -1,0 +1,40 @@
+plugins {
+    id 'nva.common-conventions'
+    id 'java-library'
+    id 'jacoco'
+}
+
+group = 'com.github.bibsysdev'
+
+dependencies {
+    testImplementation libs.bundles.testing
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+tasks.named('test', Test) {
+    useJUnitPlatform()
+    failFast = false
+    testLogging {
+        events = ['skipped', 'passed', 'failed']
+        showCauses = true
+        exceptionFormat = "full"
+    }
+}
+
+// Do not generate test reports for individual projects
+tasks.named("jacocoTestReport", JacocoReport) {
+    enabled = false
+    reports {
+        xml.required = true
+        html.required = true
+    }
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('test')
+}
