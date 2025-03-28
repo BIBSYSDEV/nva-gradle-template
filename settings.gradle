@@ -13,3 +13,5 @@ rootProject.name = 'nva-gradle-template'
 include 'app'
 include 'list'
 include 'utilities'
+include 'common'
+
