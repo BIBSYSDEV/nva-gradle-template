@@ -1,10 +1,10 @@
 plugins {
-    // Apply the java Plugin to add support for Java.
     id 'java'
+    id 'jacoco'
+    id 'com.diffplug.spotless'
 }
 
 repositories {
-    // Use Maven Central for resolving dependencies.
     mavenCentral()
 }
 
@@ -25,9 +25,40 @@ testing {
     }
 }
 
-// Apply a specific Java toolchain to ease working on different environments.
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
     }
+}
+
+// Configure project-wide automatic formatting
+spotless {
+    java {
+        toggleOffOn() // Ignores sections between `spotless:off` / `spotless:on`
+        googleJavaFormat().reflowLongStrings().formatJavadoc(true).reorderImports(true)
+    }
+
+    groovyGradle {
+        target '**/*.gradle'
+        greclipse()
+        leadingTabsToSpaces(4)
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+
+    format 'misc', {
+        target '.gitignore', '.gitattributes', '.editorconfig'
+        leadingTabsToSpaces(4)
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+}
+
+// Reformat project before build
+tasks.named('build').configure {
+    dependsOn('spotlessApply')
+}
+
+tasks.named('test').configure {
+    dependsOn('spotlessApply')
 }
