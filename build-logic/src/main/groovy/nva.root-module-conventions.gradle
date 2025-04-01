@@ -3,7 +3,7 @@ plugins {
     id 'jacoco'
 }
 
-tasks.register('aggregateCoverage', JacocoReport) {
+tasks.register('testCodeCoverageReport', JacocoReport) {
     group = "test coverage"
     description = "Aggregate test coverage from all subprojects"
     dependsOn(tasks.named('test'))
@@ -30,11 +30,11 @@ tasks.register('aggregateCoverage', JacocoReport) {
 tasks.register('verifyCoverage', JacocoCoverageVerification) {
     group = "test coverage"
     description = "Verify test coverage"
-    dependsOn tasks.named('aggregateCoverage', JacocoReport)
+    dependsOn tasks.named('testCodeCoverageReport', JacocoReport)
 
-    executionData = aggregateCoverage.executionData
-    sourceDirectories = aggregateCoverage.sourceDirectories
-    classDirectories = aggregateCoverage.classDirectories
+    executionData = testCodeCoverageReport.executionData
+    sourceDirectories = testCodeCoverageReport.sourceDirectories
+    classDirectories = testCodeCoverageReport.classDirectories
 
     violationRules {
 
@@ -59,11 +59,11 @@ tasks.register('verifyCoverage', JacocoCoverageVerification) {
 tasks.register('showCoverageReport') {
     group = "test coverage"
     description = "Show clickable link to test coverage report"
-    dependsOn tasks.named('aggregateCoverage', JacocoReport)
+    dependsOn tasks.named('testCodeCoverageReport', JacocoReport)
     outputs.upToDateWhen { false }
 
     doLast {
-        def reportDirPath = "reports/jacoco/aggregateCoverage/html"
+        def reportDirPath = "reports/jacoco/testCodeCoverageReport/html"
         def reportDir = layout.buildDirectory.dir(reportDirPath).get().asFile
         logger.quiet("Combined coverage report:")
         logger.quiet("file://${reportDir}/index.html")
