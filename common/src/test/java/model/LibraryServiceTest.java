@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 class LibraryServiceTest {
 
   @Test
-  void getMyBook() {
+  void shouldFindBookWithExpectedTitle() {
     var myBook = LibraryService.getMyBook();
     assertEquals("My book", myBook.title());
   }

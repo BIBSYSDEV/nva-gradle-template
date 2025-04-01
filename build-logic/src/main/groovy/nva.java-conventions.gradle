@@ -2,6 +2,7 @@ plugins {
     id 'nva.common-conventions'
     id 'java-library'
     id 'jacoco'
+    id 'pmd'
 }
 
 group = 'com.github.bibsysdev'
@@ -14,6 +15,13 @@ java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
     }
+}
+
+pmd {
+    toolVersion = '7.12.0'
+    ruleSetConfig = rootProject.resources.text.fromFile('config/pmd/ruleset.xml')
+    ruleSets = []
+    ignoreFailures = false
 }
 
 tasks.named('test', Test) {

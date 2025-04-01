@@ -2,7 +2,7 @@ package model;
 
 import java.util.List;
 
-public class LibraryService {
+public final class LibraryService {
 
   private LibraryService() {
     // private constructor to hide the implicit public one

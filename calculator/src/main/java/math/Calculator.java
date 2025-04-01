@@ -1,6 +1,6 @@
 package math;
 
-public class Calculator {
+public final class Calculator {
 
   private Calculator() {
     // private constructor to hide the implicit public one
