@@ -1,6 +1,6 @@
 # nva-gradle-template
 
-![ci](https://github.com/BIBSYSDEV/nva-gradle-template/actions/workflows/build.yml/badge.svg)
+[![ci](https://github.com/BIBSYSDEV/nva-gradle-template/actions/workflows/build.yml/badge.svg)](https://github.com/BIBSYSDEV/nva-gradle-template/actions/workflows/build.yml)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/8405a7d7b690490f8690949d207d9cdf)](https://app.codacy.com/gh/BIBSYSDEV/nva-gradle-template/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/8405a7d7b690490f8690949d207d9cdf)](https://app.codacy.com/gh/BIBSYSDEV/nva-gradle-template/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage)
 
