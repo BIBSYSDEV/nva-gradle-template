@@ -3,12 +3,17 @@ plugins {
     id 'java-library'
     id 'jacoco'
     id 'pmd'
+    id 'net.ltgt.errorprone'
 }
 
 group = 'com.github.bibsysdev'
 
 dependencies {
     testImplementation libs.bundles.testing
+
+    // Add ErrorProne for static analysis during compilation
+    annotationProcessor libs.errorprone
+    testAnnotationProcessor libs.errorprone
 }
 
 java {
