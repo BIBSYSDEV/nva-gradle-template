@@ -22,6 +22,7 @@
   <rule ref="category/java/codestyle.xml">
     <exclude name="AtLeastOneConstructor"/>
     <exclude name="TooManyStaticImports"/>
+    <exclude name="LongVariable"/>
     <exclude name="ShortVariable"/>
     <exclude name="LocalVariableCouldBeFinal"/>
     <exclude name="MethodArgumentCouldBeFinal"/>
