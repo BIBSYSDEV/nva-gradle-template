@@ -7,21 +7,28 @@ junit = { strictly = '5.11.4' }
 junitPlatform = { strictly = '1.11.4' }
 mockito = { strictly = '5.15.2' }
 spotless = { strictly = '7.0.2' }
+versions-plugin = { strictly = '0.52.0' }
 
 [libraries]
 cucumber-java = { group = 'io.cucumber', name = 'cucumber-java', version.ref = 'cucumber' }
 cucumber-junit = { group = 'io.cucumber', name = 'cucumber-junit', version.ref = 'cucumber' }
 cucumber-junit-platform-engine = { group = 'io.cucumber', name = 'cucumber-junit-platform-engine', version.ref = 'cucumber' }
 cucumber-picocontainer = { group = 'io.cucumber', name = 'cucumber-picocontainer', version.ref = 'cucumber' }
-errorprone = { group = 'com.google.errorprone', name = 'error_prone_core', version.ref = 'errorprone' }
-errorprone-plugin = { group = 'net.ltgt.errorprone', name = 'net.ltgt.errorprone.gradle.plugin', version.ref = 'errorpronePlugin' }
 hamcrest = { group = 'org.hamcrest', name = 'hamcrest', version.ref = 'hamcrest' }
 junit-jupiter-api = { group = 'org.junit.jupiter', name = 'junit-jupiter-api', version.ref = 'junit' }
 junit-jupiter-engine = { group = 'org.junit.jupiter', name = 'junit-jupiter-engine', version.ref = 'junit' }
 junit-jupiter-params = { group = 'org.junit.jupiter', name = 'junit-jupiter-params', version.ref = 'junit' }
 junit-platform-suite = { group = 'org.junit.platform', name = 'junit-platform-suite', version.ref = 'junitPlatform' }
 mockito-core = { group = 'org.mockito', name = 'mockito-core', version.ref = 'mockito' }
+
+# Plugins as dependencies
+errorprone = { group = 'com.google.errorprone', name = 'error_prone_core', version.ref = 'errorprone' }
+errorprone-plugin = { group = 'net.ltgt.errorprone', name = 'net.ltgt.errorprone.gradle.plugin', version.ref = 'errorpronePlugin' }
 spotless = { group = 'com.diffplug.spotless', name = 'spotless-plugin-gradle', version.ref = 'spotless' }
+# versions2 = { group = 'com.github.ben-manes', name = 'gradle-versions-plugin', version.ref = 'versions-plugin' }
+
+[plugins]
+versions = { id = "com.github.ben-manes.versions", version.ref = 'versions-plugin'  }
 
 [bundles]
 buildtools = ['errorprone-plugin', 'spotless']
