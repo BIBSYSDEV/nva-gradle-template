@@ -1,4 +1,3 @@
 plugins {
     id 'nva.root-module-conventions'
-    alias(libs.plugins.versions)
 }
