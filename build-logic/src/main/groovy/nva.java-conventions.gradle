@@ -1,6 +1,6 @@
 plugins {
-    id 'nva.common-conventions'
     id 'java-library'
+    id 'nva.formatting-conventions'
     id 'jacoco'
     id 'pmd'
     id 'net.ltgt.errorprone'

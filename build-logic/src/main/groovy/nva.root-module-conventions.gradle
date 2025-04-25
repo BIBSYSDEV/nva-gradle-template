@@ -1,5 +1,7 @@
 plugins {
-    id 'nva.common-conventions'
+    id 'base'
+    id 'java'
+    id 'nva.formatting-conventions'
     id 'jacoco'
     id 'com.github.ben-manes.versions'
 }
