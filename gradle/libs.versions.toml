@@ -11,7 +11,6 @@ versions = { strictly = '0.52.0' }
 
 [libraries]
 cucumber-java = { group = 'io.cucumber', name = 'cucumber-java', version.ref = 'cucumber' }
-cucumber-junit = { group = 'io.cucumber', name = 'cucumber-junit', version.ref = 'cucumber' }
 cucumber-junit-platform-engine = { group = 'io.cucumber', name = 'cucumber-junit-platform-engine', version.ref = 'cucumber' }
 cucumber-picocontainer = { group = 'io.cucumber', name = 'cucumber-picocontainer', version.ref = 'cucumber' }
 hamcrest = { group = 'org.hamcrest', name = 'hamcrest', version.ref = 'hamcrest' }
@@ -31,5 +30,5 @@ gradle-versions-plugin = { group = 'com.github.ben-manes', name = 'gradle-versio
 gradle-versions = { id = "com.github.ben-manes.versions", version.ref = 'versions'  }
 
 [bundles]
-cucumber = ['cucumber-java', 'cucumber-junit', 'cucumber-junit-platform-engine', 'cucumber-picocontainer']
+cucumber = ['cucumber-java', 'cucumber-junit-platform-engine', 'cucumber-picocontainer']
 testing = ['junit-jupiter-api', 'junit-jupiter-params', 'junit-jupiter-engine', 'junit-platform-suite', 'mockito-core', 'hamcrest']
