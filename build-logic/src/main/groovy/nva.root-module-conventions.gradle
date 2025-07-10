@@ -1,31 +1,22 @@
 plugins {
     id 'base'
-    id 'java'
+    id 'jacoco-report-aggregation'
     id 'nva.formatting-conventions'
-    id 'jacoco'
     id 'com.github.ben-manes.versions'
 }
 
-tasks.register('testCodeCoverageReport', JacocoReport) {
-    group = "test coverage"
-    description = "Aggregate test coverage from all subprojects"
-    dependsOn(tasks.named('test'))
-    dependsOn subprojects.collect { it.tasks.named('test') }
-
-    executionData fileTree(rootDir) {
-        include '**/build/jacoco/test.exec', '**/build/jacoco/test.exec'
+dependencies {
+    // Automatically aggregate coverage from all subprojects
+    subprojects.each { subproject ->
+        jacocoAggregation subproject
     }
+}
 
-    // Collect all classes and sources from subprojects
-    def mainOutputs = subprojects.collect { it.sourceSets.main.output }
-    def mainSources = subprojects.collect { it.sourceSets.main.allSource.srcDirs }
-
-    classDirectories.from(mainOutputs)
-    sourceDirectories.from(mainSources)
-
+reporting {
     reports {
-        xml.required = true
-        html.required = true
+        testCodeCoverageReport(JacocoCoverageReport) {
+            testSuiteName = 'test'
+        }
     }
 }
 
@@ -33,14 +24,15 @@ tasks.register('testCodeCoverageReport', JacocoReport) {
 tasks.register('verifyCoverage', JacocoCoverageVerification) {
     group = "test coverage"
     description = "Verify test coverage"
-    dependsOn tasks.named('testCodeCoverageReport', JacocoReport)
+    dependsOn tasks.named('testCodeCoverageReport')
 
-    executionData = testCodeCoverageReport.executionData
-    sourceDirectories = testCodeCoverageReport.sourceDirectories
-    classDirectories = testCodeCoverageReport.classDirectories
+    // Get data from the aggregated report task
+    def reportTask = tasks.named('testCodeCoverageReport')
+    executionData = reportTask.get().executionData
+    sourceDirectories = reportTask.get().sourceDirectories
+    classDirectories = reportTask.get().classDirectories
 
     violationRules {
-
         rule {
             limit {
                 counter = 'METHOD'
@@ -62,7 +54,7 @@ tasks.register('verifyCoverage', JacocoCoverageVerification) {
 tasks.register('showCoverageReport') {
     group = "test coverage"
     description = "Show clickable link to test coverage report"
-    dependsOn tasks.named('testCodeCoverageReport', JacocoReport)
+    dependsOn tasks.named('testCodeCoverageReport')
     outputs.upToDateWhen { false }
 
     doLast {
@@ -74,10 +66,10 @@ tasks.register('showCoverageReport') {
 }
 
 tasks.named('check') {
-    dependsOn tasks.named('verifyCoverage', JacocoCoverageVerification)
+    dependsOn tasks.named('verifyCoverage')
     finalizedBy tasks.named('showCoverageReport')
 }
 
-tasks.named('verifyCoverage', JacocoCoverageVerification) {
+tasks.named('verifyCoverage') {
     finalizedBy tasks.named('showCoverageReport')
 }

@@ -24,4 +24,11 @@ class CalculatorTest {
     var chapter2PageCount = book.chapters().get(1).pageCount();
     assertEquals(4, Calculator.subtract(chapter1PageCount, chapter2PageCount));
   }
+
+  @Test
+  void testChapterCountMethodFromOtherProject() {
+    var book = LibraryService.getAnotherBook();
+    var chapterCount = book.getChapterCount();
+    assertEquals(2, chapterCount);
+  }
 }

@@ -12,9 +12,11 @@ plugins {
 }
 
 spotless {
-    java {
-        toggleOffOn() // Ignores sections between `spotless:off` / `spotless:on`
-        googleJavaFormat().reflowLongStrings().formatJavadoc(true).reorderImports(true)
+    if (plugins.hasPlugin('java')) {
+        java {
+            toggleOffOn() // Ignores sections between `spotless:off` / `spotless:on`
+            googleJavaFormat().reflowLongStrings().formatJavadoc(true).reorderImports(true)
+        }
     }
 
     groovyGradle {
@@ -37,6 +39,6 @@ tasks.named('build').configure {
     dependsOn('spotlessApply')
 }
 
-tasks.named('test').configure {
+tasks.matching { it.name == 'test' }.configureEach {
     dependsOn('spotlessApply')
 }

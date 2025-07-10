@@ -47,9 +47,7 @@ tasks.named('test', Test) {
     }
 }
 
-// Do not generate test reports for individual projects
 tasks.named("jacocoTestReport", JacocoReport) {
-    enabled = false
     reports {
         xml.required = true
         html.required = true
