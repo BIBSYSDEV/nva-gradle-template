@@ -1,6 +1,6 @@
 package math;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import model.LibraryService;
 import org.junit.jupiter.api.Test;

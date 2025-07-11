@@ -7,9 +7,7 @@ repositories {
 }
 
 dependencies {
-    implementation libs.datafaker
     implementation libs.gradle.versions.plugin
     implementation libs.errorprone.plugin
-    implementation libs.nebula.lint.plugin
     implementation libs.spotless.plugin
 }

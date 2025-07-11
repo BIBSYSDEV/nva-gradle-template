@@ -3,6 +3,6 @@ plugins {
 }
 
 dependencies {
-    implementation libs.datafaker  // Unused dependency for testing lint
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.11.4'  // Bad tuple notation - should trigger lint
+    testImplementation commons.datafaker
+    testImplementation commons.bundles.testing.junit
 }

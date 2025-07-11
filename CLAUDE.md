@@ -56,7 +56,6 @@ This is a multi-module Java project using Gradle as the build tool. It serves as
 ```bash
 ./gradlew pmdMain          # Run PMD on main source
 ./gradlew pmdTest          # Run PMD on test source
-./gradlew lintGradle       # Run Nebula Lint on build scripts
 ```
 
 ### Dependency Management
@@ -79,7 +78,7 @@ The project uses a sophisticated build system with custom convention plugins:
 - **Version catalog**: gradle/libs.versions.toml manages all dependency versions
 - **Modern coverage aggregation**: Uses Gradle's `jacoco-report-aggregation` plugin with automatic subproject detection
 - **Automatic formatting**: Spotless runs before build and test tasks
-- **Multiple static analysis tools**: PMD, ErrorProne, Nebula Lint, plus standard Java compiler warnings
+- **Multiple static analysis tools**: PMD, ErrorProne, plus standard Java compiler warnings
 
 ## Testing Strategy
 
@@ -94,7 +93,6 @@ The project uses a sophisticated build system with custom convention plugins:
 - **Google Java Format** with automatic import reordering
 - **PMD** rules via config/pmd/ruleset.xml
 - **ErrorProne** static analysis during compilation
-- **Nebula Lint** for Gradle build script analysis (unused dependencies, version conflicts, etc.)
 - **Gradle build scripts** formatted with Greclipse
 - **Markdown/config files** formatted with consistent spacing
 
