@@ -54,7 +54,7 @@ tasks.register('verifyCoverage', JacocoCoverageVerification) {
 tasks.register('showCoverageReport') {
     group = "test coverage"
     description = "Show clickable link to test coverage report"
-    dependsOn tasks.named('testCodeCoverageReport')
+    dependsOn tasks.named('testCodeCoverageReport', JacocoReport)
     outputs.upToDateWhen { false }
 
     doLast {
