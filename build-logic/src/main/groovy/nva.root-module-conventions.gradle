@@ -24,7 +24,7 @@ reporting {
 tasks.register('verifyCoverage', JacocoCoverageVerification) {
     group = "test coverage"
     description = "Verify test coverage"
-    dependsOn tasks.named('testCodeCoverageReport')
+    dependsOn tasks.named('testCodeCoverageReport', JacocoReport)
 
     // Get data from the aggregated report task
     def reportTask = tasks.named('testCodeCoverageReport')
@@ -66,7 +66,7 @@ tasks.register('showCoverageReport') {
 }
 
 tasks.named('check') {
-    dependsOn tasks.named('verifyCoverage')
+    dependsOn tasks.named('verifyCoverage', JacocoCoverageVerification)
     finalizedBy tasks.named('showCoverageReport')
 }
 
