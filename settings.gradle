@@ -1,10 +1,5 @@
 pluginManagement {
     includeBuild('build-logic')
-
-    repositories {
-        gradlePluginPortal()
-        mavenCentral()
-    }
 }
 
 plugins {
@@ -14,6 +9,12 @@ plugins {
 dependencyResolutionManagement {
     repositories {
         mavenCentral()
+    }
+    versionCatalogs {
+        // Version catalog imported from nva-commons
+        create("commons") {
+            from("com.github.bibsysdev:versions:2.3.1")
+        }
     }
 }
 
