@@ -2,7 +2,7 @@
 cucumber = { strictly = '7.21.1' }
 errorprone = { strictly = '2.37.0' }
 errorpronePlugin = { strictly = '4.1.0' }
-nva = { strictly = '2.3.2' }
+nva = { strictly = '${nva.version}' }
 spotless = { strictly = '7.0.2' }
 benManesVersions = { strictly = '0.52.0' }
 
