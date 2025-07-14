@@ -1,10 +1,13 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this
+repository.
 
 ## Project Overview
 
-This is a multi-module Java project using Gradle as the build tool. It serves as a template for NVA (Norwegian National Research Repository) projects and demonstrates modern Java development practices with comprehensive static analysis, code formatting, and testing.
+This is a multi-module Java project using Gradle as the build tool. It serves as a template for
+NVA (Norwegian National Research Repository) projects and demonstrates modern Java development
+practices with comprehensive static analysis, code formatting, and testing.
 
 ## Project Structure
 
@@ -26,6 +29,7 @@ This is a multi-module Java project using Gradle as the build tool. It serves as
 ## Essential Commands
 
 ### Build & Test
+
 ```bash
 ./gradlew build          # Build all modules, run tests, apply formatting
 ./gradlew test           # Run all tests
@@ -33,12 +37,14 @@ This is a multi-module Java project using Gradle as the build tool. It serves as
 ```
 
 ### Individual Module Operations
+
 ```bash
 ./gradlew :common:test          # Test specific module
 ./gradlew :calculator:build     # Build specific module
 ```
 
 ### Code Quality & Formatting
+
 ```bash
 ./gradlew spotlessApply     # Apply code formatting
 ./gradlew spotlessCheck     # Check code formatting
@@ -46,6 +52,7 @@ This is a multi-module Java project using Gradle as the build tool. It serves as
 ```
 
 ### Coverage Reports
+
 ```bash
 ./gradlew testCodeCoverageReport    # Generate aggregated coverage report
 ./gradlew showCoverageReport       # Show coverage report location
@@ -53,12 +60,14 @@ This is a multi-module Java project using Gradle as the build tool. It serves as
 ```
 
 ### Static Analysis
+
 ```bash
 ./gradlew pmdMain          # Run PMD on main source
 ./gradlew pmdTest          # Run PMD on test source
 ```
 
 ### Dependency Management
+
 ```bash
 ./gradlew dependencyUpdates    # Check for dependency updates
 ./gradlew dependencies        # Show dependency tree
@@ -69,14 +78,17 @@ This is a multi-module Java project using Gradle as the build tool. It serves as
 The project uses a sophisticated build system with custom convention plugins:
 
 ### Convention Plugins (build-logic/src/main/groovy/)
+
 - **nva.root-module-conventions**: Root-level tasks, modern JaCoCo report aggregation
 - **nva.java-conventions**: Java compilation, testing, static analysis setup
 - **nva.formatting-conventions**: Spotless formatting configuration
 
 ### Key Build Features
+
 - **Composite builds**: build-logic/ is included as a separate build
 - **Version catalog**: gradle/libs.versions.toml manages all dependency versions
-- **Modern coverage aggregation**: Uses Gradle's `jacoco-report-aggregation` plugin with automatic subproject detection
+- **Modern coverage aggregation**: Uses Gradle's `jacoco-report-aggregation` plugin with automatic
+  subproject detection
 - **Automatic formatting**: Spotless runs before build and test tasks
 - **Multiple static analysis tools**: PMD, ErrorProne, plus standard Java compiler warnings
 
@@ -102,10 +114,10 @@ The project uses a sophisticated build system with custom convention plugins:
 2. Run `./gradlew build` (automatically formats and tests)
 3. Use `./gradlew showCoverageReport` to verify coverage
 4. The build will fail if:
-   - Tests fail
-   - Coverage drops below 100%
-   - Code formatting is incorrect
-   - PMD or ErrorProne violations exist
+    - Tests fail
+    - Coverage drops below 100%
+    - Code formatting is incorrect
+    - PMD or ErrorProne violations exist
 
 ## Module Dependencies
 
