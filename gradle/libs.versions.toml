@@ -1,11 +1,11 @@
 [versions]
-openSearchTestContainer = { strictly = '3.0.1' }
-testContainers = { strictly = '1.21.3' }
+opensearch-testcontainer = { strictly = '3.0.1' }
+testcontainers = { strictly = '1.21.3' }
 
 [libraries]
-testContainers = { group = 'org.testcontainers', name = 'testcontainers', version.ref = 'testContainers' }
-testContainersJunit = { group = 'org.testcontainers', name = 'junit-jupiter', version.ref = 'testContainers' }
-testContainersOpenSearch = { group = 'org.opensearch', name = 'opensearch-testcontainers', version.ref = 'openSearchTestContainer' }
+testcontainers = { group = 'org.testcontainers', name = 'testcontainers', version.ref = 'testcontainers' }
+testcontainers-junit = { group = 'org.testcontainers', name = 'junit-jupiter', version.ref = 'testcontainers' }
+testcontainers-opensearch = { group = 'org.opensearch', name = 'opensearch-testcontainers', version.ref = 'opensearch-testcontainer' }
 
 [bundles]
-testContainers = ['testContainers', 'testContainersJunit', 'testContainersOpenSearch']
+testContainers = ['testcontainers', 'testcontainers-junit', 'testcontainers-opensearch']
