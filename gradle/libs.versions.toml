@@ -1,22 +1,11 @@
 [versions]
-cucumber = { strictly = '7.21.1' }
-errorprone = { strictly = '2.37.0' }
-errorpronePlugin = { strictly = '4.1.0' }
-nva = { strictly = '${nva.version}' }
-spotless = { strictly = '7.0.2' }
-benManesVersions = { strictly = '0.52.0' }
+opensearch-testcontainer = { strictly = '3.0.1' }
+testcontainers = { strictly = '1.21.3' }
 
 [libraries]
-# Test dependencies
-cucumber-java = { group = 'io.cucumber', name = 'cucumber-java', version.ref = 'cucumber' }
-cucumber-junit-platform-engine = { group = 'io.cucumber', name = 'cucumber-junit-platform-engine', version.ref = 'cucumber' }
-cucumber-picocontainer = { group = 'io.cucumber', name = 'cucumber-picocontainer', version.ref = 'cucumber' }
-
-# Build tools
-errorprone = { group = 'com.google.errorprone', name = 'error_prone_core', version.ref = 'errorprone' }
-errorprone-plugin = { group = 'net.ltgt.errorprone', name = 'net.ltgt.errorprone.gradle.plugin', version.ref = 'errorpronePlugin' }
-spotless-plugin = { group = 'com.diffplug.spotless', name = 'spotless-plugin-gradle', version.ref = 'spotless' }
-gradle-versions-plugin = { group = 'com.github.ben-manes', name = 'gradle-versions-plugin', version.ref = 'benManesVersions' }
+testcontainers = { group = 'org.testcontainers', name = 'testcontainers', version.ref = 'testcontainers' }
+testcontainers-junit = { group = 'org.testcontainers', name = 'junit-jupiter', version.ref = 'testcontainers' }
+testcontainers-opensearch = { group = 'org.opensearch', name = 'opensearch-testcontainers', version.ref = 'opensearch-testcontainer' }
 
 [bundles]
-cucumber = ['cucumber-java', 'cucumber-junit-platform-engine', 'cucumber-picocontainer']
+testContainers = ['testcontainers', 'testcontainers-junit', 'testcontainers-opensearch']

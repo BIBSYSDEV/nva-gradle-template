@@ -8,12 +8,6 @@ plugins {
 
 group = 'com.github.bibsysdev'
 
-dependencies {
-    // Add ErrorProne for static analysis during compilation
-    annotationProcessor libs.errorprone
-    testAnnotationProcessor libs.errorprone
-}
-
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(23)

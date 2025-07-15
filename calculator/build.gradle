@@ -3,6 +3,9 @@ plugins {
 }
 
 dependencies {
+    implementation nvaCatalog.bundles.logging
     implementation project(':common')
-    testImplementation commons.bundles.testing.junit
+
+    testImplementation libs.bundles.testContainers
+    testImplementation nvaCatalog.bundles.testing.junit
 }

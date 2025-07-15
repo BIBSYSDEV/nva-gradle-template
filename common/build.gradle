@@ -3,6 +3,9 @@ plugins {
 }
 
 dependencies {
-    testImplementation commons.datafaker
-    testImplementation commons.bundles.testing.junit
+    implementation nvaCatalog.bundles.logging
+    implementation nvaLibs.core
+
+    testImplementation nvaCatalog.bundles.testing.junit
+    testImplementation nvaCatalog.datafaker
 }

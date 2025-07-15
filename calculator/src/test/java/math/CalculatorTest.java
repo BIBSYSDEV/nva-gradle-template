@@ -2,6 +2,7 @@ package math;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.List;
 import model.LibraryService;
 import org.junit.jupiter.api.Test;
 
@@ -20,8 +21,9 @@ class CalculatorTest {
   @Test
   void subtractPageCounts() {
     var book = LibraryService.getAnotherBook();
-    var chapter1PageCount = book.chapters().get(0).pageCount();
-    var chapter2PageCount = book.chapters().get(1).pageCount();
+    var chapters = List.copyOf(book.chapters());
+    var chapter1PageCount = chapters.get(0).pageCount();
+    var chapter2PageCount = chapters.get(1).pageCount();
     assertEquals(4, Calculator.subtract(chapter1PageCount, chapter2PageCount));
   }
 
