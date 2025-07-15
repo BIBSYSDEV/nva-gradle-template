@@ -20,7 +20,6 @@ reporting {
     }
 }
 
-// Verify that all classes and methods are covered by tests
 tasks.register('verifyCoverage', JacocoCoverageVerification) {
     group = "test coverage"
     description = "Verify test coverage"
@@ -72,4 +71,10 @@ tasks.named('check') {
 
 tasks.named('verifyCoverage') {
     finalizedBy tasks.named('showCoverageReport')
+}
+
+tasks.named('dependencyUpdates') {
+    checkForGradleUpdate = true
+    outputDir = 'build/dependencyUpdates'
+    reportfileName = 'report'
 }
