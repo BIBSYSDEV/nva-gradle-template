@@ -2,6 +2,22 @@ pluginManagement {
     includeBuild('build-logic')
 }
 
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version "${foojayResolverVersion}"
+}
+
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+    }
+    versionCatalogs {
+        // Version catalog imported from nva-commons
+        create("commons") {
+            from("com.github.bibsysdev:versions:${providers.gradleProperty('nva.version').get()}")
+        }
+    }
+}
+
 rootProject.name = 'nva-gradle-template'
 
 include 'common'

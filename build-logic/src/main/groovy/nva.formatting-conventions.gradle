@@ -1,0 +1,44 @@
+/*
+ * This file defines project-wide formatting conventions, as enforced by the Spotless plugin.
+ *
+ * The formatting task from Spotless are added to the build lifecycle, so that they are run
+ * automatically before building or testing the project. This is done for two reasons:
+ * 1. It makes developers automatically format their code (as long as they build the project)
+ * 2. It ensures that incorrect formatting will not cause the build to fail, which is useful for CI
+ */
+
+plugins {
+    id 'com.diffplug.spotless'
+}
+
+spotless {
+    if (plugins.hasPlugin('java')) {
+        java {
+            toggleOffOn() // Ignores sections between `spotless:off` / `spotless:on`
+            googleJavaFormat().reflowLongStrings().formatJavadoc(true).reorderImports(true)
+        }
+    }
+
+    groovyGradle {
+        target '**/*.gradle'
+        greclipse()
+        leadingTabsToSpaces(4)
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+
+    format 'misc', {
+        target '.gitignore', '.gitattributes', '.editorconfig', '**/*.md'
+        leadingTabsToSpaces(4)
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+}
+
+tasks.named('build').configure {
+    dependsOn('spotlessApply')
+}
+
+tasks.matching { it.name == 'test' }.configureEach {
+    dependsOn('spotlessApply')
+}

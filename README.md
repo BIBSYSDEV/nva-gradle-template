@@ -6,3 +6,30 @@
 
 This project is a minimal example and template for a Java project using Gradle as build tool.
 It is intended to demonstrate a multi-module project structure and to provide a starting point for new projects.
+
+## Quick Start
+
+```bash
+# Build and test
+./gradlew build
+
+# Run tests
+./gradlew test
+
+# Check for dependency updates
+./gradlew dependencyUpdates
+```
+
+The `dependencyUpdates` task lists dependencies that have newer versions available for upgrade.
+
+## Project Structure
+
+- **common**: Shared library with model classes
+- **calculator**: Example app depending on common module
+
+## Key Features
+
+- Java 23 with Amazon Corretto toolchain
+- 100% code coverage enforced
+- Auto-formatting with Google Java Format
+- Static analysis with PMD and ErrorProne

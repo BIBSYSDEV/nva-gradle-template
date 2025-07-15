@@ -1,6 +1,6 @@
 plugins {
-    id 'nva.common-conventions'
     id 'java-library'
+    id 'nva.formatting-conventions'
     id 'jacoco'
     id 'pmd'
     id 'net.ltgt.errorprone'
@@ -9,8 +9,6 @@ plugins {
 group = 'com.github.bibsysdev'
 
 dependencies {
-    testImplementation libs.bundles.testing
-
     // Add ErrorProne for static analysis during compilation
     annotationProcessor libs.errorprone
     testAnnotationProcessor libs.errorprone
@@ -18,7 +16,8 @@ dependencies {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(23)
+        vendor = JvmVendorSpec.AMAZON
     }
 }
 
@@ -46,9 +45,7 @@ tasks.named('test', Test) {
     }
 }
 
-// Do not generate test reports for individual projects
 tasks.named("jacocoTestReport", JacocoReport) {
-    enabled = false
     reports {
         xml.required = true
         html.required = true

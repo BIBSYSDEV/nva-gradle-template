@@ -2,28 +2,21 @@
 cucumber = { strictly = '7.21.1' }
 errorprone = { strictly = '2.37.0' }
 errorpronePlugin = { strictly = '4.1.0' }
-hamcrest = { strictly = '3.0' }
-junit = { strictly = '5.11.4' }
-junitPlatform = { strictly = '1.11.4' }
-mockito = { strictly = '5.15.2' }
+nva = { strictly = '${nva.version}' }
 spotless = { strictly = '7.0.2' }
+benManesVersions = { strictly = '0.52.0' }
 
 [libraries]
+# Test dependencies
 cucumber-java = { group = 'io.cucumber', name = 'cucumber-java', version.ref = 'cucumber' }
-cucumber-junit = { group = 'io.cucumber', name = 'cucumber-junit', version.ref = 'cucumber' }
 cucumber-junit-platform-engine = { group = 'io.cucumber', name = 'cucumber-junit-platform-engine', version.ref = 'cucumber' }
 cucumber-picocontainer = { group = 'io.cucumber', name = 'cucumber-picocontainer', version.ref = 'cucumber' }
+
+# Build tools
 errorprone = { group = 'com.google.errorprone', name = 'error_prone_core', version.ref = 'errorprone' }
 errorprone-plugin = { group = 'net.ltgt.errorprone', name = 'net.ltgt.errorprone.gradle.plugin', version.ref = 'errorpronePlugin' }
-hamcrest = { group = 'org.hamcrest', name = 'hamcrest', version.ref = 'hamcrest' }
-junit-jupiter-api = { group = 'org.junit.jupiter', name = 'junit-jupiter-api', version.ref = 'junit' }
-junit-jupiter-engine = { group = 'org.junit.jupiter', name = 'junit-jupiter-engine', version.ref = 'junit' }
-junit-jupiter-params = { group = 'org.junit.jupiter', name = 'junit-jupiter-params', version.ref = 'junit' }
-junit-platform-suite = { group = 'org.junit.platform', name = 'junit-platform-suite', version.ref = 'junitPlatform' }
-mockito-core = { group = 'org.mockito', name = 'mockito-core', version.ref = 'mockito' }
-spotless = { group = 'com.diffplug.spotless', name = 'spotless-plugin-gradle', version.ref = 'spotless' }
+spotless-plugin = { group = 'com.diffplug.spotless', name = 'spotless-plugin-gradle', version.ref = 'spotless' }
+gradle-versions-plugin = { group = 'com.github.ben-manes', name = 'gradle-versions-plugin', version.ref = 'benManesVersions' }
 
 [bundles]
-buildtools = ['errorprone-plugin', 'spotless']
-cucumber = ['cucumber-java', 'cucumber-junit', 'cucumber-junit-platform-engine', 'cucumber-picocontainer']
-testing = ['junit-jupiter-api', 'junit-jupiter-params', 'junit-jupiter-engine', 'junit-platform-suite', 'mockito-core', 'hamcrest']
+cucumber = ['cucumber-java', 'cucumber-junit-platform-engine', 'cucumber-picocontainer']
