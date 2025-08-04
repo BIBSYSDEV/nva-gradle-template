@@ -7,15 +7,17 @@ plugins {
 }
 
 group = 'com.github.bibsysdev'
+def javaVersion = 23
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(23)
+        languageVersion = JavaLanguageVersion.of(javaVersion)
         vendor = JvmVendorSpec.AMAZON
     }
 }
 
 tasks.withType(JavaCompile).configureEach {
+    options.release = javaVersion
     options.errorprone {
         // Suppress build failures from lint errors (remove this if possible)
         allErrorsAsWarnings = true
