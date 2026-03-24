@@ -1,5 +1,15 @@
 pluginManagement {
-    includeBuild('build-logic')
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+    }
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id.startsWith('nva.')) {
+                useModule("com.github.bibsysdev:nva-gradle-plugins:${nvaPluginsVersion}")
+            }
+        }
+    }
 }
 
 plugins {
