@@ -114,10 +114,10 @@ The project uses a sophisticated build system with custom convention plugins:
 2. Run `./gradlew build` (automatically formats and tests)
 3. Use `./gradlew showCoverageReport` to verify coverage
 4. The build will fail if:
-    - Tests fail
-    - Coverage drops below 100%
-    - Code formatting is incorrect
-    - PMD or ErrorProne violations exist
+   - Tests fail
+   - Coverage drops below 100%
+   - Code formatting is incorrect
+   - PMD or ErrorProne violations exist
 
 ## Module Dependencies
 

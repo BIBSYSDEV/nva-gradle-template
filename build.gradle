@@ -1,16 +1,15 @@
 plugins {
     id 'nva.root-module-conventions'
-    alias(nvaCatalog.plugins.errorprone)
-    alias(nvaCatalog.plugins.gradle.versions)
-    alias(nvaCatalog.plugins.spotless)
 }
 
-allprojects {
-    plugins.withId('java') {
-        plugins.withId('net.ltgt.errorprone') {
-            dependencies {
-                annotationProcessor nvaCatalog.errorprone
-                testAnnotationProcessor nvaCatalog.errorprone
+subprojects {
+    pluginManager.withPlugin('nva.java-conventions') {
+        nva {
+            java {
+                languageVersion = 23
+            }
+            pmd {
+                rulesetFile = rootProject.file('config/pmd/ruleset.xml')
             }
         }
     }
