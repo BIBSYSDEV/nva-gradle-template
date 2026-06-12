@@ -2,15 +2,35 @@ plugins {
     id 'nva.root-module-conventions'
 }
 
+nva {
+    dependencyAnalysis {
+        enforced = true
+    }
+    jacoco {
+        minMethodCoverage = 1.000
+        minClassCoverage = 1.000
+    }
+}
+
 subprojects {
     pluginManager.withPlugin('nva.java-conventions') {
         nva {
+            errorprone {
+                allErrorsAsWarnings = false
+            }
             java {
-                languageVersion = 23
+                languageVersion = 25
             }
             pmd {
                 rulesetFile = rootProject.file('config/pmd/ruleset.xml')
             }
+            spotless {
+                enabled = true
+            }
+        }
+        dependencies {
+            testRuntimeOnly(nvaCatalog.junit.jupiter.engine)
+            testRuntimeOnly(nvaCatalog.junit.platform.launcher)
         }
     }
 }

@@ -3,9 +3,9 @@ plugins {
 }
 
 dependencies {
-    implementation nvaCatalog.bundles.logging
-    implementation project(':common')
-
-    testImplementation libs.bundles.testContainers
-    testImplementation nvaCatalog.bundles.testing.junit
+    implementation(nvaCatalog.slf4j.api)
+    runtimeOnly(nvaCatalog.jackson.databind)
+    testImplementation(nvaCatalog.junit.jupiter.api)
+    testImplementation(project(':common'))
+    testRuntimeOnly(nvaCatalog.datafaker)
 }

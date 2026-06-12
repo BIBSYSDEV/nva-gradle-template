@@ -3,9 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation nvaCatalog.bundles.logging
-    implementation nvaLibs.core
-
-    testImplementation nvaCatalog.bundles.testing.junit
-    testImplementation nvaCatalog.datafaker
+    runtimeOnly(nvaCatalog.jackson.databind)
+    testImplementation(nvaCatalog.junit.jupiter.api)
+    testRuntimeOnly(nvaCatalog.datafaker)
 }
