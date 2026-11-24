@@ -1,0 +1,410 @@
+# Team template for docs/openapi.yaml in NVA services behind API Gateway.
+#
+# Sections marked "Shared" are copied verbatim into every service. Change them here first, then sync
+# the services. Everything else shows the conventions with example values that each service replaces.
+# See the OpenAPI section in README.md for the rules and the reasons behind them.
+openapi: 3.0.3
+info:
+  title: NVA Example API
+  description: Example API showing the shared conventions for NVA OpenAPI documents.
+  version: 1.0.0
+  # Shared
+  contact:
+    name: Nasjonalt vitenarkiv (NVA)
+    email: kontakt@sikt.no
+    url: https://nva.sikt.no
+  # Shared
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+servers:
+  - url: https://api.nva.unit.no/example
+    description: Production environment
+  - url: https://api.test.nva.aws.unit.no/example
+    description: Test environment
+  - url: https://api.dev.nva.aws.unit.no/example
+    description: Development environment
+  - url: https://api.sandbox.nva.aws.unit.no/example
+    description: Sandbox environment
+tags:
+  - name: Example
+    description: Example resource operations
+  # Shared, when used. nva-swagger-generator publishes operations with this tag in the external docs.
+  - name: external
+    description: Operations included in the external API documentation
+
+# Shared
+x-amazon-apigateway-request-validators:
+  validate_body:
+    validateRequestBody: true
+    validateRequestParameters: false
+  validate_parameters:
+    validateRequestBody: false
+    validateRequestParameters: true
+  validate_body_and_parameters:
+    validateRequestBody: true
+    validateRequestParameters: true
+
+# Shared
+x-amazon-apigateway-gateway-responses:
+  BAD_REQUEST_BODY:
+    statusCode: 400
+    responseParameters:
+      gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+    responseTemplates:
+      application/json: |-
+        {
+          "title": $context.error.messageString,
+          "detail": "$context.error.validationErrorString",
+          "status": 400,
+          "requestId": "$context.requestId",
+          "instance": "$context.path"
+        }
+
+# Shared. Set security per operation, never at the root: root-level security also applies to the
+# OPTIONS methods that SAM adds for CORS, which breaks preflight requests.
+x-authenticated-security: &authenticated
+  - CognitoUserPool:
+      - https://api.nva.unit.no/scopes/backend
+      - https://api.nva.unit.no/scopes/frontend
+x-backend-security: &backend
+  - CognitoUserPool:
+      - https://api.nva.unit.no/scopes/backend
+
+paths:
+  /:
+    post:
+      tags:
+        - Example
+      summary: Create example
+      description: Creates an example from the request body.
+      operationId: createExample
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ExampleRequest"
+      security: *authenticated
+      x-amazon-apigateway-request-validator: validate_body
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${CreateExampleHandler.Arn}:live/invocations
+        httpMethod: POST
+        type: AWS_PROXY
+      responses:
+        "201":
+          description: The example was created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Example"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "415":
+          $ref: "#/components/responses/UnsupportedMediaType"
+        "422":
+          $ref: "#/components/responses/UnprocessableContent"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+  /{identifier}:
+    parameters:
+      - name: identifier
+        in: path
+        required: true
+        description: The identifier of the example.
+        schema:
+          type: string
+    get:
+      tags:
+        - Example
+        - external
+      summary: Get example
+      description: Returns the example with the given identifier. The operation is public.
+      operationId: getExample
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${FetchExampleHandler.Arn}:live/invocations
+        httpMethod: POST
+        type: AWS_PROXY
+      responses:
+        "200":
+          description: The example was found.
+          headers:
+            ETag:
+              description: Entity tag of the returned version, for use in If-Match.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Example"
+            application/ld+json:
+              schema:
+                $ref: "#/components/schemas/Example"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "406":
+          $ref: "#/components/responses/NotAcceptable"
+        "410":
+          $ref: "#/components/responses/Gone"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "502":
+          $ref: "#/components/responses/BadGateway"
+    put:
+      tags:
+        - Example
+      summary: Update example
+      description: Replaces the example with the request body.
+      operationId: updateExample
+      parameters:
+        - name: If-Match
+          in: header
+          required: false
+          description: Entity tag from a previous read. The update fails if the example has changed since.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ExampleRequest"
+      security: *authenticated
+      x-amazon-apigateway-request-validator: validate_body
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${UpdateExampleHandler.Arn}:live/invocations
+        httpMethod: POST
+        type: AWS_PROXY
+      responses:
+        "200":
+          description: The example was updated.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Example"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "415":
+          $ref: "#/components/responses/UnsupportedMediaType"
+        "422":
+          $ref: "#/components/responses/UnprocessableContent"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+    delete:
+      tags:
+        - Example
+      summary: Delete example
+      description: Deletes the example. Only backend clients may call this operation.
+      operationId: deleteExample
+      security: *backend
+      x-amazon-apigateway-integration:
+        uri:
+          Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DeleteExampleHandler.Arn}:live/invocations
+        httpMethod: POST
+        type: AWS_PROXY
+      responses:
+        "204":
+          description: The example was deleted.
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+
+components:
+  # Shared, when used. Keep only the responses the service references, since Spectral warns about
+  # unused components. Name any other status after its reason phrase, for example MethodNotAllowed.
+  responses:
+    BadRequest:
+      description: The request is malformed or fails validation.
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    Unauthorized:
+      description: The request has no valid access token.
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    Forbidden:
+      description: The caller is not allowed to perform this operation.
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    NotFound:
+      description: The resource does not exist.
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    NotAcceptable:
+      description: The service cannot respond with any media type in the Accept header.
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    Conflict:
+      description: The request conflicts with the current state of the resource.
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    Gone:
+      description: The resource has been deleted.
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    PreconditionFailed:
+      description: A precondition in the request headers, such as If-Match, does not hold.
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    UnsupportedMediaType:
+      description: The request body has a media type the operation does not support.
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    UnprocessableContent:
+      description: The request is well-formed, but its content cannot be processed.
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    InternalServerError:
+      description: The service failed unexpectedly.
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    BadGateway:
+      description: A service this API depends on failed or returned an invalid response.
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+
+  schemas:
+    Example:
+      type: object
+      description: An example resource
+      required:
+        - id
+        - identifier
+        - name
+      properties:
+        id:
+          type: string
+          format: uri
+          description: The URI of the example
+        identifier:
+          type: string
+          description: The identifier of the example
+        name:
+          type: string
+          description: The name of the example
+    ExampleRequest:
+      type: object
+      description: The content of an example to create or update
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: The name of the example
+
+    # Shared. Matches the body that ApiGatewayHandler in nva-commons writes for errors.
+    Problem:
+      type: object
+      description: NVA error reporting object
+      required:
+        - title
+        - detail
+        - status
+      properties:
+        title:
+          type: string
+          description: Human-readable description of the error status
+        detail:
+          type: string
+          description: A more detailed error message describing the error and potential mitigations
+        status:
+          type: integer
+          description: The HTTP status code associated with the problem
+        requestId:
+          type: string
+          description: Identifier of the request causing the problem
+        instance:
+          type: string
+          description: The requested path associated with the error
+        type:
+          type: string
+          description: A URI describing the error and mitigations, in generic cases, this is about:blank
+        resource:
+          type: object
+          description: The resource the problem concerns, for example the tombstone of a deleted resource (410 Gone)
+        conflictingKeys:
+          type: object
+          additionalProperties:
+            type: string
+          description: Names and values of the identifiers that conflict with existing data (409 Conflict)
+        errors:
+          type: array
+          description: One entry per broken validation rule (400 Bad Request)
+          items:
+            $ref: "#/components/schemas/ValidationError"
+    # Shared
+    ValidationError:
+      type: object
+      description: A validation rule that the request breaks
+      required:
+        - detail
+        - pointer
+      properties:
+        detail:
+          type: string
+          description: What is wrong with the field
+        pointer:
+          type: string
+          description: JSON pointer (RFC 6901) to the invalid field in the request body, or the name of an invalid query or path parameter
+
+  # Shared. APIs that also serve external clients add `- Ref: ExternalCognitoAuthorizerArn`.
+  securitySchemes:
+    CognitoUserPool:
+      type: apiKey
+      name: Authorization
+      in: header
+      x-amazon-apigateway-authtype: cognito_user_pools
+      x-amazon-apigateway-authorizer:
+        type: cognito_user_pools
+        providerARNs:
+          - Ref: CognitoAuthorizerArn
