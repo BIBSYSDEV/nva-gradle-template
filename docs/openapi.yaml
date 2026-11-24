@@ -29,9 +29,6 @@ servers:
 tags:
   - name: Example
     description: Example resource operations
-  # Shared, when used. nva-swagger-generator publishes operations with this tag in the external docs.
-  - name: external
-    description: Operations included in the external API documentation
 
 # Shared
 x-amazon-apigateway-request-validators:
@@ -125,7 +122,6 @@ paths:
     get:
       tags:
         - Example
-        - external
       summary: Get example
       description: Returns the example with the given identifier. The operation is public.
       operationId: getExample

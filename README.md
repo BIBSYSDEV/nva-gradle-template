@@ -46,7 +46,6 @@ Copy it to `docs/openapi.yaml` in the service, replace the example values, and k
 These parts are identical in every service and marked `# Shared` in the template:
 
 - `info.contact` and `info.license`
-- the `external` tag, when the service uses it
 - `x-amazon-apigateway-request-validators`
 - `x-amazon-apigateway-gateway-responses`
 - the security anchors `x-authenticated-security` and `x-backend-security`
@@ -55,21 +54,20 @@ These parts are identical in every service and marked `# Shared` in the template
 - the `CognitoUserPool` security scheme, apart from the extra `ExternalCognitoAuthorizerArn` for APIs that serve external clients
 
 Change a shared part here first, then sync the services.
-The `Problem` schema matters most.
-When schemas with the same name differ between services, nva-swagger-generator prefixes the name with the API title in every service that has it, such as `NvaPublicationApiProblem`.
-The combined documentation only gets one shared `Problem` once every copy is identical.
+The `Problem` schema matters most, since every service returns the same error body from nva-commons, and clients should only have to learn it once.
+
+nva-swagger-generator publishes each document verbatim on the service documentation pages, so whatever is in the file, including servers, descriptions and examples, is what readers see.
 
 ### Conventions
 
 - Use `openapi: 3.0.3`, since API Gateway does not import OpenAPI 3.1.
 - Name the API `NVA <Name> API` in `info.title`.
-  The title is also the REST API name in API Gateway, the section name in the combined documentation, and the key nva-swagger-generator uses to match the document to the deployed API.
-  Renaming it is a deploy-visible change.
+  The title is the link text on the service documentation index, and also the REST API name in API Gateway, so renaming it is a deploy-visible change.
 - Write `info.description` as one or more full sentences.
-  It becomes the section description in the combined documentation.
+  It is the first thing readers see on the API's documentation page.
 - List the servers in the order production, test, development, sandbox, each with the service's base path and a description.
+  Swagger UI sends "Try it out" requests to the selected server.
 - Write tag names in Title Case and give every tag a description.
-  The lowercase `external` tag is reserved: nva-swagger-generator publishes the operations that have it in the external API documentation.
 - Order the keys of an operation as `tags`, `summary`, `description`, `operationId`, `parameters`, `requestBody`, `security`, `x-amazon-apigateway-request-validator`, `x-amazon-apigateway-integration`, `responses`.
 - Write `summary` as a short phrase without a trailing period, such as `Get example`, and `description` as full sentences.
 - Write `operationId` in lowerCamelCase with the verb first, such as `getExample`.
@@ -82,4 +80,4 @@ The combined documentation only gets one shared `Problem` once every copy is ide
   Name a response after the reason phrase in UpperCamelCase, such as `NotFound` or `MethodNotAllowed`.
 - Use `application/problem+json` for error responses, since that is what `ApiGatewayHandler` in nva-commons returns.
 - Quote status codes (`"200"`) and `$ref` values with double quotes, and quote other strings only when YAML requires it.
-- Name schemas in UpperCamelCase without digits or whitespace (nva-swagger-generator warns about both), and properties in lowerCamelCase.
+- Name schemas in UpperCamelCase and properties in lowerCamelCase.
