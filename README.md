@@ -56,7 +56,8 @@ These parts are identical in every service and marked `# Shared` in the template
 
 Change a shared part here first, then sync the services.
 The `Problem` schema matters most.
-nva-swagger-generator renames schemas that share a name but differ, so one deviating copy shows up as a separate `<Title>Problem` schema in the combined documentation.
+When schemas with the same name differ between services, nva-swagger-generator prefixes the name with the API title in every service that has it, such as `NvaPublicationApiProblem`.
+The combined documentation only gets one shared `Problem` once every copy is identical.
 
 ### Conventions
 
@@ -73,7 +74,7 @@ nva-swagger-generator renames schemas that share a name but differ, so one devia
 - Write `summary` as a short phrase without a trailing period, such as `Get example`, and `description` as full sentences.
 - Write `operationId` in lowerCamelCase with the verb first, such as `getExample`.
 - Set `security` per operation with one of the anchors, such as `security: *authenticated`, and leave it out for public operations.
-  Never set it at the root: it also applies to the OPTIONS methods that SAM adds for CORS, and breaks preflight requests (see [nva-nvi#619](https://github.com/BIBSYSDEV/nva-nvi/pull/619), reverted in [nva-nvi#623](https://github.com/BIBSYSDEV/nva-nvi/pull/623)).
+  Never set it at the root: that broke CORS in nva-nvi ([nva-nvi#619](https://github.com/BIBSYSDEV/nva-nvi/pull/619), reverted in [nva-nvi#623](https://github.com/BIBSYSDEV/nva-nvi/pull/623)).
 - Set request validation per operation with one of the shared validators.
 - Give the integration exactly `uri`, `httpMethod: POST` and `type: AWS_PROXY`.
   The URI targets the `live` alias (`${Handler.Arn}:live/invocations`), which requires `AutoPublishAlias: live` on the function.

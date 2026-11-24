@@ -61,8 +61,8 @@ x-amazon-apigateway-gateway-responses:
           "instance": "$context.path"
         }
 
-# Shared. Set security per operation, never at the root: root-level security also applies to the
-# OPTIONS methods that SAM adds for CORS, which breaks preflight requests.
+# Shared. Set security per operation, never at the root: that broke CORS in nva-nvi (nva-nvi#619,
+# reverted in nva-nvi#623).
 x-authenticated-security: &authenticated
   - CognitoUserPool:
       - https://api.nva.unit.no/scopes/backend
