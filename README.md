@@ -74,7 +74,8 @@ nva-swagger-generator publishes each document verbatim on the service documentat
   Server and tag descriptions are the exception: they are short labels without a period.
 - Write `operationId` in lowerCamelCase with the verb first, such as `getExample`.
 - Set `security` per operation with one of the anchors, such as `security: *authenticated`, and leave it out for public operations.
-  Never set it at the root: that broke CORS in nva-nvi ([nva-nvi#619](https://github.com/BIBSYSDEV/nva-nvi/pull/619), reverted in [nva-nvi#623](https://github.com/BIBSYSDEV/nva-nvi/pull/623)).
+  API Gateway [does not use root-level security](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-known-issues.html), so setting it at the root has no effect.
+- Name any extra security anchor like the shared ones, `x-<name>-security: &<name>`, such as `x-publication-upsert-security: &publicationUpsert`.
 - Set request validation per operation with one of the shared validators.
 - Give the integration exactly `uri`, `httpMethod: POST` and `type: AWS_PROXY`.
   The URI targets the `live` alias (`${Handler.Arn}:live/invocations`), which requires `AutoPublishAlias: live` on the function.
@@ -83,4 +84,6 @@ nva-swagger-generator publishes each document verbatim on the service documentat
 - Use `application/problem+json` for error responses, since that is what `ApiGatewayHandler` in nva-commons returns.
   The shared gateway responses give the errors that API Gateway produces itself (failed request validation, a missing or invalid token, an unknown route) the same body, media type and CORS header.
 - Quote status codes (`"200"`) and `$ref` values with double quotes, and quote other strings only when YAML requires it.
-- Name schemas in UpperCamelCase and properties in lowerCamelCase.
+- Name schemas in UpperCamelCase with letters and digits only, since they become API Gateway model names, and properties in lowerCamelCase.
+- Keep schemas that are used with request body validation within what API Gateway supports.
+  It does not support `nullable`, `default`, `readOnly`, `discriminator` or the `int32` and `int64` formats.
