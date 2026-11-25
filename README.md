@@ -65,11 +65,12 @@ nva-swagger-generator publishes each document verbatim on the service documentat
   The title is the link text on the service documentation index, and also the REST API name in API Gateway, so renaming it is a deploy-visible change.
 - Write `info.description` as one or more full sentences.
   It is the first thing readers see on the API's documentation page.
-- List the servers in the order production, test, development, sandbox, each with the service's base path and a description.
+- List the servers in the order production, test, development, sandbox, end-to-end test, each with the service's base path and a description.
   Swagger UI sends "Try it out" requests to the selected server.
 - Write tag names in Title Case and give every tag a description.
 - Order the keys of an operation as `tags`, `summary`, `description`, `operationId`, `parameters`, `requestBody`, `security`, `x-amazon-apigateway-request-validator`, `x-amazon-apigateway-integration`, `responses`.
-- Write `summary` as a short phrase without a trailing period, such as `Get example`, and `description` as full sentences.
+- Write `summary` as a short phrase without a trailing period, such as `Get example`.
+- Write every `description` as full sentences that end with a period, in operations, parameters, responses and schemas alike.
 - Write `operationId` in lowerCamelCase with the verb first, such as `getExample`.
 - Set `security` per operation with one of the anchors, such as `security: *authenticated`, and leave it out for public operations.
   Never set it at the root: that broke CORS in nva-nvi ([nva-nvi#619](https://github.com/BIBSYSDEV/nva-nvi/pull/619), reverted in [nva-nvi#623](https://github.com/BIBSYSDEV/nva-nvi/pull/623)).
@@ -79,5 +80,6 @@ nva-swagger-generator publishes each document verbatim on the service documentat
 - Reference error responses as `#/components/responses/<Name>`, never inline and never keyed by status code.
   Name a response after the reason phrase in UpperCamelCase, such as `NotFound` or `MethodNotAllowed`.
 - Use `application/problem+json` for error responses, since that is what `ApiGatewayHandler` in nva-commons returns.
+  The shared gateway responses give the errors that API Gateway produces itself (failed request validation, a missing or invalid token, an unknown route) the same body, media type and CORS header.
 - Quote status codes (`"200"`) and `$ref` values with double quotes, and quote other strings only when YAML requires it.
 - Name schemas in UpperCamelCase and properties in lowerCamelCase.
