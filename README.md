@@ -71,6 +71,7 @@ nva-swagger-generator publishes each document verbatim on the service documentat
 - Order the keys of an operation as `tags`, `summary`, `description`, `operationId`, `parameters`, `requestBody`, `security`, `x-amazon-apigateway-request-validator`, `x-amazon-apigateway-integration`, `responses`.
 - Write `summary` as a short phrase without a trailing period, such as `Get example`.
 - Write every `description` as full sentences that end with a period, in operations, parameters, responses and schemas alike.
+  Server and tag descriptions are the exception: they are short labels without a period.
 - Write `operationId` in lowerCamelCase with the verb first, such as `getExample`.
 - Set `security` per operation with one of the anchors, such as `security: *authenticated`, and leave it out for public operations.
   Never set it at the root: that broke CORS in nva-nvi ([nva-nvi#619](https://github.com/BIBSYSDEV/nva-nvi/pull/619), reverted in [nva-nvi#623](https://github.com/BIBSYSDEV/nva-nvi/pull/623)).
