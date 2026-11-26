@@ -43,13 +43,13 @@ Copy it to `docs/openapi.yaml` in the service, replace the example values, and k
 
 ### Shared parts
 
-These parts are identical in every service and marked `# Shared` in the template:
+These parts are identical in every service:
 
 - `info.contact` and `info.license`
 - `x-amazon-apigateway-request-validators`
 - `x-amazon-apigateway-gateway-responses`
 - the security anchors `x-authenticated-security` and `x-backend-security`
-- each entry in `components.responses` that the service uses
+- each entry in `components.responses` that the service uses (leave out the rest, since Spectral warns about unused components)
 - the `Problem` and `ValidationError` schemas
 - the `CognitoUserPool` security scheme, apart from the extra `ExternalCognitoAuthorizerArn` for APIs that serve external clients
 
