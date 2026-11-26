@@ -10,6 +10,10 @@ nva {
         minMethodCoverage = 1.000
         minClassCoverage = 1.000
     }
+    spectral {
+        documents = ['docs/*.yaml']
+        rulesetFile = file('.spectral.yaml')
+    }
 }
 
 subprojects {
