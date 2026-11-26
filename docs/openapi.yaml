@@ -142,7 +142,7 @@ paths:
             schema:
               $ref: "#/components/schemas/ExampleRequest"
       security: *authenticated
-      x-amazon-apigateway-request-validator: validate_body
+      x-amazon-apigateway-request-validator: validate_body_and_parameters
       x-amazon-apigateway-integration:
         uri:
           Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${CreateExampleHandler.Arn}:live/invocations
@@ -236,7 +236,7 @@ paths:
             schema:
               $ref: "#/components/schemas/ExampleRequest"
       security: *authenticated
-      x-amazon-apigateway-request-validator: validate_body
+      x-amazon-apigateway-request-validator: validate_body_and_parameters
       x-amazon-apigateway-integration:
         uri:
           Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${UpdateExampleHandler.Arn}:live/invocations

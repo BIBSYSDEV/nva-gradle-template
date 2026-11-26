@@ -77,6 +77,9 @@ nva-swagger-generator publishes each document verbatim on the service documentat
   API Gateway [does not use root-level security](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-known-issues.html), so setting it at the root has no effect.
 - Name any extra security anchor like the shared ones, `x-<name>-security: &<name>`, such as `x-publication-upsert-security: &publicationUpsert`.
 - Set request validation per operation with one of the shared validators.
+  Use `validate_body_and_parameters` on every new operation that has a request body or required parameters, so the documentation is enforced.
+  Parameter validation only checks that required query and header parameters are present.
+  Turning validation on for an existing operation changes its behaviour, so do that one operation at a time.
 - Give the integration exactly `uri`, `httpMethod: POST` and `type: AWS_PROXY`.
   The URI targets the `live` alias (`${Handler.Arn}:live/invocations`), which requires `AutoPublishAlias: live` on the function.
 - Reference error responses as `#/components/responses/<Name>`, never inline and never keyed by status code.
